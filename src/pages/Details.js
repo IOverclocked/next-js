@@ -15,12 +15,12 @@ const Details = () => {
   return (<div>
     <h1>Details page</h1>
     {persons.map(({ name, vehicle }) => (
-      <>
-      <hr />
-      <Link as={`/${vehicle}/${name}`} href="/[vehicle]/[person]">
-        <a>{name}'s {vehicle}</a>
+      <div key={`/${vehicle}/${name}`}>
+        <hr />
+        <Link as={`/${vehicle}/${name}`} href="/[vehicle]/[person]">
+          <a>{name}'s {vehicle}</a>
         </Link>
-      </>
+      </div>
     ))}
   </div>)
 };
