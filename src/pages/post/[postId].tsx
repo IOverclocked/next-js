@@ -1,19 +1,22 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { PostsHandler } from '../../api/services'
+import { IPost } from '../../api/types';
+import { NextPageContext } from 'next';
 
-export default function PostId({ post }) {
+interface IProps {
+  post: IPost
+}
+
+export default function PostId({ post }: IProps) {
   const { query } = useRouter();
   const { postId } = query;
-  const [postContent, setPostContent] = useState(post);
+  const [postContent, setPostContent] = useState<IPost>(post);
   const { body, title } = postContent;
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/${postId}`
-      );
-      const _postsContent = await response.json();
-
+      const _postsContent: IPost = await PostsHandler.getPost(Number(postId))
       setPostContent(_postsContent);
     };
 
@@ -36,13 +39,9 @@ export default function PostId({ post }) {
   );
 }
 
-PostId.getInitialProps = async (ctx) => {
+PostId.getInitialProps = async (ctx: NextPageContext) => {
   const { query } = ctx;
   const { postId } = query;
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${postId}`
-  );
-  const post = response.json()
-
+  const post: IPost = await PostsHandler.getPost(Number(postId));
   return { post };
 };
