@@ -6,7 +6,7 @@ export default async function getAllVehicles(
   res: NextApiResponse
 ) {
   const db = await open('./mydb.sqlite');
-  const vehicle = await db.all('select * from vehicle');
+  const vehicles = await db.all('select * from vehicle');
 
-  res.json(vehicle);
+  res.json(vehicles);
 }
