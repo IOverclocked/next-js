@@ -1,3 +1,4 @@
+import { GetStaticProps } from 'next';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -5,6 +6,16 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await fetch('http://localhost:3000/api/vehicles');
+  const json = await res.json();
+  return {
+    props: {
+      list: json
+    }
+  }
+}
 
 interface IProps {
   list: {
@@ -40,12 +51,4 @@ export default function Vehicles({ list }: IProps) {
       </Table>
     </TableContainer>
   )
-}
-
-Vehicles.getInitialProps = async () => {
-  const res = await fetch('http://localhost:3000/api/vehicles');
-  const json = await res.json();
-  return {
-    list: json
-  }
 }

@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { open } from 'sqlite';
+import { authenticated } from '../../../api/authenticated';
 
-export default async function getAllVehicles(
+export default authenticated(async function getAllVehicles(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -9,4 +10,4 @@ export default async function getAllVehicles(
   const vehicles = await db.all('select * from vehicle');
 
   res.json(vehicles);
-}
+});
